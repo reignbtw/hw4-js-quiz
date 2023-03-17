@@ -118,5 +118,68 @@ var gameStart = function() {
 var setQuestion = function() {
     answersReset()
     displayQuestion(ShuffledQuestionsarray[QuestionIndex])
+};
+
+//reset answers
+var answersReset = function() {
+    while (answers.firstChild) {
+        answers.removeChild(answers.firstChild)
+    };
+};
+
+//displaying questions
+var displayQuestion = function(index) {
+    question.innerText = index.q
+    for (var i=0; i < index.choices.length; i++) {
+        var answerbtn = document.createElement("button");
+        answerbtn.innerText = index.choices[i].choice
+        answerbtn.classList.add('btn');
+        answerbtn.classList.add("answerbtn");
+        answerbtn.addEventListener("click", answerCheck);
+        answerbtn.appendChild(answerbtn)
+    };
+};
+
+//check to see if answer is correct
+var checkAnswer = function(event) {
+    var selectedAnswer = event.target;
+    if (ShuffledQuestionsarray[QuestionIndex].a === selectedAnswer.innerText) {
+        correctAnswer();
+        score = score + 5;
+    } else {
+        incorrectAnswer();
+        timeleft = timeleft - 5;
+    }
 }
+
+//display correct or wrong on screen
+var correctAnswer = function() {
+    if(correct.className = "hidden") {
+        correct.classList.remove("hidden")
+        correct.classList.add("banner")
+        wrong.classList.remove("banner")
+        wrong.classList.add("hidden")
+    };
+};
+
+var incorrectAnswer = function() {
+    if(wrong.className = "hidden") {
+        wrong.classList.remove("hidden")
+        wrong.classList.add("banner")
+        correct.classList.remove("banner")
+        correct.classList.add("hidden")
+    };
+};
+
+//Total score display
+var showScore = function() {
+    questionContainer.classList.add("hidden");
+    endContainer.classList.remove("hidden");
+    endContainer.classList.add("show");
+
+    var displayScore = document.createElement("p");
+    displayScore.innerText = ("Your score is " + score);
+    scoresContainer.appendChild(displayScore);
+};
+
 
